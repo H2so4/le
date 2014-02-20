@@ -15,6 +15,8 @@ if [ "$(id -u)" != "0" ]; then
     exit 1
 fi
 
+[[ -z $1 ]] && echo "Enter your account ID as an argument. e.g. install.sh 2342342sdfwe23423423243423" ; exit 1
+
 LE_LOCATION="https://raw.github.com/logentries/le/master/le"
 
 CURL="/usr/bin/env curl -O"
@@ -25,7 +27,7 @@ DAEMON_DL_LOC="https://raw.github.com/logentries/le/master/install/mac/$DAEMON"
 DAEMON_PATH="/Library/LaunchDaemons/"
 
 INSTALL_PATH="/usr/bin/le"
-REGISTER_CMD="$INSTALL_PATH register"
+REGISTER_CMD="$INSTALL_PATH register --account-key=$1"
 LE_FOLLOW="$INSTALL_PATH follow"
 
 printf "Welcome to the Logentries Install Script\n"
