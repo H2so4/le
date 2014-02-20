@@ -15,7 +15,7 @@ if [ "$(id -u)" != "0" ]; then
     exit 1
 fi
 
-[[ -z $1 ]] && exit "Enter your account ID as an argument. e.g. install.sh 2342342sdfwe23423423243423"
+# [[ -z $1 ]] && exit "Enter your account ID as an argument. e.g. install.sh 2342342sdfwe23423423243423"
 
 LE_LOCATION="https://raw.github.com/logentries/le/master/le"
 
@@ -28,6 +28,8 @@ DAEMON_PATH="/Library/LaunchDaemons/"
 
 INSTALL_PATH="/usr/bin/le"
 REGISTER_CMD="$INSTALL_PATH register --account-key=$1"
+[[ -z $1 ]] && REGISTER_CMD="$INSTALL_PATH register"
+
 LE_FOLLOW="$INSTALL_PATH follow"
 
 printf "Welcome to the Logentries Install Script\n"
@@ -44,6 +46,14 @@ mv le $INSTALL_PATH
 mv $DAEMON $DAEMON_PATH
 
 $REGISTER_CMD
+
+if [ "$(echo $?)" != "0" ]; then
+    echo "Registration failed.  Please verify your account ID"
+    echo "You can run install.sh with no arguments to be prompted for your email/password to register"
+    echo "Enter your account ID as an argument. e.g. install.sh 2342342sdfwe23423423243423"
+    exit 1
+fi
+
 $LE_FOLLOW "/var/log/system.log"
 
 printf "\n**** Install Complete! ****\n\n"
