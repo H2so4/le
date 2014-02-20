@@ -15,8 +15,6 @@ if [ "$(id -u)" != "0" ]; then
     exit 1
 fi
 
-# [[ -z $1 ]] && exit "Enter your account ID as an argument. e.g. install.sh 2342342sdfwe23423423243423"
-
 LE_LOCATION="https://raw.github.com/logentries/le/master/le"
 
 CURL="/usr/bin/env curl -O"
